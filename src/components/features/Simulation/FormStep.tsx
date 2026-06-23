@@ -1,15 +1,24 @@
-import type { LucideIcon } from 'lucide-react';
+import { ArrowLeft, ArrowRight, type LucideIcon } from 'lucide-react';
+import { Input, type InputProps } from '../../shared/Input';
+import { Button } from '../../shared/Button';
 
 interface FormStepProps {
   icon: LucideIcon;
   title: string;
   question: string;
+  inputProps: InputProps
+  submitButtonProps?: {
+    label: string;
+    emojiIcon?: string;
+  }
 }
 
 export function FormStep({
   icon: Icon,
   title,
   question,
+  inputProps,
+  submitButtonProps
 }: FormStepProps) {
   return (
     <div className='bg-card rounded-2xl p-6 shadow-[4px_4px_18px_0px_rgba(0,0,0,0.2)] sm:p-8'>
@@ -22,6 +31,28 @@ export function FormStep({
       <h3 className='text-foreground mb-6 text-xl leading-snug font-semibold sm:text-2xl'>
         {question}
       </h3>
+      <form className='flex flex-col gap-4'>
+         <Input {...inputProps}/>
+         <div className='flex flex-col gap-3 sm:flex-row sm:gap-6'>
+         <Button 
+         type='button' 
+         variant='ghost' 
+         className='order-2 flex-1 justify-center rounded-xl py-3 sm:order-1'
+         icon={ArrowLeft}
+         >
+         Voltar
+         </Button>
+         <Button 
+         type='submit' 
+         variant='primary' 
+         className='order-1 flex-1 sm:order-2'
+         icon={!submitButtonProps ? ArrowRight : undefined}
+         >
+          {submitButtonProps?.label ?? 'Próximo'}
+          {submitButtonProps?.emojiIcon}
+         </Button>
+         </div>
+      </form>
     </div>
   );
 }

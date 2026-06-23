@@ -10,6 +10,11 @@ export function SimulationForm() {
       icon={PiggyBank}
       title='Renda mensal bruta'
       question="Quanto é depositado na sua conta todo mês (somando todas as fontes)?"
+      inputProps={{
+        type: 'text',
+        placeholder: 'ex: 5000,00',
+        prefix: 'R$'
+      }}
      />
     </>
   )
