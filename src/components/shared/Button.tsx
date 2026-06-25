@@ -6,7 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>{
   icon?: LucideIcon
 }
 
-const baseClasses = 'flex cursor-pointer items-center justify-center font-medium text-sm gap-2 px-4 py-3 transition-opacity hover:opacity-80 disabled:opacity-80'
+const baseClasses = 'flex cursor-pointer items-center justify-center font-medium text-sm gap-2 px-4 py-3 transition-opacity hover:opacity-80 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none'
 
 const variantClasses = {
   primary: 'bg-primary text-primary-foreground font-semibold rounded-xl',
