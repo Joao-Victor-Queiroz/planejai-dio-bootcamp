@@ -3,19 +3,19 @@ import { Card } from "../components/features/SimulationResults/Card";
 import { PageHero } from "../components/shared/PageHero";
 import type { SimulationFormData } from "../data/simulation";
 import { calcMonthlySaving } from "../utils/simulation";
-
-const mock: SimulationFormData = {
-  income: 'R$5000,00',
-  expenses: 'R$2000,00',
-  debts: 'R$500,00',
-  goalName: 'Viagem para o Japão',
-  goalAmount: 'R$30000,00',
-  goalDeadline: '24'
-}
+import { useParams } from "react-router-dom";
+import { useSimulationStorage } from "../hooks/useSimulationStorage";
 
 export function SimulationResultPage(){
-  const data: SimulationFormData = mock;
+  const { id } = useParams<{id: string}>();
+  const { getFormData } = useSimulationStorage() 
+  const data = id ? getFormData(id) : null;
   const monthlySavings = calcMonthlySaving(data);
+
+  if(!data){
+    return <p>Simulação não encontrada.</p>
+  }
+
    return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
       <PageHero
