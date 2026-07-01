@@ -6,8 +6,7 @@ import {
   PiggyBank,
   Wallet,
 } from 'lucide-react'
-
-// import type { InsightData } from '@/services/aiService'
+import type { InsightData } from '@/src/services/aiService'
 
 import type { FormStepProps } from '../components/features/Simulation/FormStep'
 
@@ -95,5 +94,5 @@ export type SimulationFormData = Record<
 
 export type SimulationRecord = SimulationFormData & {
   id: string
-  // insight?: InsightData
+  insight?: InsightData
 }

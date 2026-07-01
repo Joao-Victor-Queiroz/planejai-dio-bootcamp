@@ -1,0 +1,62 @@
+import { useCallback, useEffect, useRef, useState } from "react";
+import { buildAIPrompt } from "../data/aiPrompt";
+import { getInsight, type InsightData } from "../services/aiService";
+import { useSimulationStorage } from "./useSimulationStorage";
+import type { SimulationRecord } from "../data/simulation";
+
+export const useInsight = (id: string) => {
+  const { getFormData, updateSimulation } = useSimulationStorage();
+  const isRequestPending = useRef(false)
+  const [insight, setInsight] = useState<InsightData | null>(() => {
+    const simulation = getFormData(id)
+
+    if(simulation?.insight){
+      return simulation.insight;
+    }
+
+    return null
+  })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+
+  const fetchInsight = useCallback(
+    async (simulationId: string) => {
+      const simulation = getFormData(simulationId);
+
+      if (!simulation) {
+        setError('Simulação não encontrada.')
+        return;
+      }
+
+      isRequestPending.current = true
+      setIsLoading(true);
+      setError(null);
+
+      try {
+        const prompt = buildAIPrompt(simulation)
+        const data = await getInsight(prompt)
+        setInsight(data)
+
+        updateSimulation(simulationId, {
+          ...simulation,
+          insight: data,
+        } as SimulationRecord) 
+      } catch (error) {
+        setError('Erro ao gerar o diagnóstico. Tente novamente.')
+      }finally{
+        isRequestPending.current = false
+        setIsLoading(false)
+      }
+    },
+    [getFormData],
+  )
+
+  useEffect(() => {
+    if (insight || isLoading || error || isRequestPending.current) return;
+
+    fetchInsight(id)
+  }, [id, insight, isLoading, error, fetchInsight])
+
+  return { insight, isLoading, error, fetchInsight}
+}
