@@ -1,10 +1,9 @@
 import { CalendarClock, CreditCardIcon, Goal, Landmark, PiggyBank, Wallet } from "lucide-react";
+import { useParams } from "react-router-dom";
 import { Card } from "../components/features/SimulationResults/Card";
 import { PageHero } from "../components/shared/PageHero";
-import type { SimulationFormData } from "../data/simulation";
-import { calcMonthlySaving } from "../utils/simulation";
-import { useParams } from "react-router-dom";
 import { useSimulationStorage } from "../hooks/useSimulationStorage";
+import { calcMonthlySaving } from "../utils/simulation";
 
 export function SimulationResultPage(){
   const { id } = useParams<{id: string}>();
